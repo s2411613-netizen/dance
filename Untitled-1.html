@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電気通信大学競技ダンス部</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+/* ===== フェードイン（ページ全体） ===== */
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+
+  opacity:0;
+  transition:opacity 0.8s ease;
+}
+
+body.loaded{
+  opacity:1;
+}
+
+/* ===== ヘッダー ===== */
+header{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  font-size:24px;
+}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:#d4af37;
+}
+
+/* ===== ヒーロー ===== */
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+}
+
+.hero h2{
+  font-size:48px;
+}
+
+/* ===== セクション ===== */
+section{
+  padding:70px 10%;
+  background:rgba(255,255,255,0.9);
+  margin:25px auto;
+  border-radius:18px;
+}
+
+.section-title{
+  font-size:32px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:25px;
+}
+
+/* ===== フェード（スクロール） ===== */
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ===== フッター ===== */
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:40px;
+}
+
+/* ===== スマホ ===== */
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero h2{
+    font-size:32px;
+  }
+
+  .section-title{
+    font-size:26px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="#schedule">活動日程</a></li>
+<li><a href="#introduction">競技ダンスとは</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero fade">
+<h2>Ballroom Dance Club</h2>
+<p>電気通信大学 競技ダンス部</p>
+</section>
+
+<!-- 活動日程 -->
+<section id="schedule" class="fade">
+<h3 class="section-title">活動日程</h3>
+
+<iframe src="https://calendar.google.com/calendar/embed?src=uec.danceclub@gmail.com&ctz=Asia/Tokyo"
+style="border:0"
+width="100%"
+height="350"
+frameborder="0"
+scrolling="no"></iframe>
+
+</section>
+
+<!-- 競技ダンスとは -->
+<section id="introduction" class="fade">
+<h3 class="section-title">競技ダンスとは</h3>
+
+<p>
+競技ダンスは男女ペアで踊るスポーツです。<br>
+音楽に合わせて技術・表現力・美しさを競います。
+</p>
+
+</section>
+
+<!-- お問い合わせ -->
+<section class="fade">
+<h3 class="section-title">お問い合わせ</h3>
+
+<p>
+見学・体験・スポンサーのご相談などお気軽にご連絡ください。
+</p>
+
+<p style="margin-top:15px;">
+<a href="contact.html">▶ お問い合わせページへ</a>
+</p>
+
+</section>
+
+<footer>
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+
+<!-- ===== JS ===== -->
+
+<script>
+/* ページフェード */
+window.addEventListener("load", function(){
+  document.body.classList.add("loaded");
+});
+
+/* スクロールフェード */
+const fades = document.querySelectorAll('.fade');
+
+function checkFade(){
+  const trigger = window.innerHeight * 0.85;
+
+  fades.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+
+    if(top < trigger){
+      el.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', checkFade);
+window.addEventListener('load', checkFade);
+</script>
+
+</body>
+</html>

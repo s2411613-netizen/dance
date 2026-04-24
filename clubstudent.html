@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>部員用ページ | 電気通信大学競技ダンス部</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+}
+
+header{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  font-size:24px;
+}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:#d4af37;
+}
+
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+  background-color:rgba(13,44,84,0.55);
+  background-blend-mode:overlay;
+}
+
+.hero h2{
+  font-size:48px;
+}
+
+.hero p{
+  font-size:20px;
+}
+
+section{
+  padding:70px 10%;
+  background:rgba(255,255,255,0.9);
+  margin:25px auto;
+  border-radius:18px;
+}
+
+.section-title{
+  font-size:32px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:25px;
+}
+
+/* カード */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:20px;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 18px rgba(0,0,0,0.1);
+}
+
+.card h3{
+  color:#0d2c54;
+  margin-bottom:10px;
+}
+
+/* リンクリスト */
+.link-list a{
+  display:block;
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  color:#0d2c54;
+  text-decoration:none;
+}
+
+.link-list a:hover{
+  background:#f0f4fa;
+}
+
+/* 注意 */
+.notice{
+  background:#fff3cd;
+  border-left:5px solid #ffc107;
+  padding:15px;
+  border-radius:8px;
+}
+
+/* フッター */
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:40px;
+}
+
+/* スマホ */
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero h2{
+    font-size:32px;
+  }
+
+  .section-title{
+    font-size:26px;
+  }
+
+}
+
+#opening{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.curtain{
+  position:absolute;
+  top:0;
+  width:70%;
+  height:100%;
+  background:#000;
+  transition:transform 1.2s ease;
+}
+
+.curtain.left{
+  left:0;
+}
+
+.curtain.right{
+  right:0;
+}
+
+#opening.open .curtain.left{
+  transform:translateX(-100%);
+}
+
+#opening.open .curtain.right{
+  transform:translateX(100%);
+}
+
+.opening-logo{
+  position:relative;
+  z-index:3;
+  color:#fff;
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.opening-logo img{
+  width:120px;
+  margin-bottom:16px;
+}
+
+#opening.open .opening-logo{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+#opening.open{
+  background:transparent;
+  transition:background 0.5s;
+}
+
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+  body{
+    padding-top:110px;
+  }
+
+  header{
+    padding:8px 12px;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  header h1{
+    font-size:16px;
+  }
+
+  nav ul{
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  section{
+    padding:35px 5%;
+    margin:14px auto;
+    border-radius:12px;
+  }
+
+  .hero{
+    padding:70px 16px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+  }
+
+  .section-title{
+    font-size:22px;
+    margin-bottom:18px;
+  }
+
+  .slide{
+    padding:18px 20px;
+    gap:15px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:20px;
+    margin-bottom:10px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .prev,.next{
+    font-size:20px;
+    padding:8px 10px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .result-table{
+    width:100%;
+    table-layout:fixed;
+  }
+
+  .result-table th,
+  .result-table td{
+    font-size:12px;
+    padding:7px;
+    white-space:normal;
+    word-break:break-word;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="opening">
+  <div class="curtain left"></div>
+ 
+
+
+</div>
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">ホーム</a></li>
+<li><a href="index.html#introduction">部活紹介</a></li>
+<li><a href="index.html#schedule">活動日程</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="recruit.html">新歓情報</a></li>
+<li><a href="clubstudent.html">部員用ページ</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<h2>部員用ページ</h2>
+<p>部内連絡・資料・リンク集</p>
+</section>
+
+<!-- お知らせ -->
+<section class="fade">
+<h3 class="section-title">お知らせ</h3>
+
+<div class="notice">
+・現在重要な連絡はLINEグループを優先してください<br>
+・資料は随時更新されます
+</div>
+
+</section>
+
+<!-- カレンダー -->
+<section class="fade">
+<h3 class="section-title">活動カレンダー</h3>
+
+<iframe src="https://calendar.google.com/calendar/embed?src=uec.danceclub@gmail.com&ctz=Asia/Tokyo"
+style="border:0"
+width="100%"
+height="400"
+frameborder="0"
+scrolling="no"></iframe>
+
+<!-- 資料 -->
+<section class="fade">
+<h3 class="section-title">資料・コンテンツ</h3>
+
+<div class="cards">
+
+<div class="card">
+<h3>予定表</h3>
+<p>前学期・後学期の予定表</p>
+</div>
+
+
+<div class="card">
+<h3>ルール・規約</h3>
+<p>部則・練習会ルール等</p>
+</div>
+
+</div>
+
+</section>
+</section>
+<footer>
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+<script>
+window.addEventListener("DOMContentLoaded", function(){
+  const opening = document.getElementById("opening");
+
+  setTimeout(function(){
+    opening.classList.add("open");
+  }, 500);
+
+  setTimeout(function(){
+    opening.classList.add("fadeout");
+  }, 1400);
+
+  setTimeout(function(){
+    opening.style.display = "none";
+  }, 2000);
+});
+
+const password = "1953";
+
+const input = prompt("部員専用ページです。パスワードを入力してください");
+
+if(input !== password){
+  alert("パスワードが違います");
+  location.href = "index.html";
+}
+
+/* ===== 順番フェード（完全版） ===== */
+
+const fades = document.querySelectorAll('.fade');
+
+function checkFade(){
+  const trigger = window.innerHeight * 0.85;
+
+  fades.forEach((el, index) => {
+
+    // すでに表示済みならスキップ
+    if(el.classList.contains('show')) return;
+
+    const top = el.getBoundingClientRect().top;
+
+    if(top < trigger){
+
+      // 順番に遅延させる
+      setTimeout(() => {
+        el.classList.add('show');
+      }, index * 120); // ← ここが気持ちよさの核
+    }
+  });
+}
+
+/* 初回（ロード時も自然に） */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(checkFade, 200);
+});
+
+window.addEventListener('scroll', checkFade);
+window.addEventListener('load', checkFade);
+
+</script>
+</body>
+</html>

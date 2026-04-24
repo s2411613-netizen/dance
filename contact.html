@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ | 電気通信大学競技ダンス部</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+}
+
+header{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  font-size:24px;
+}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover{
+  color:#d4af37;
+}
+
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+  background-color:rgba(13,44,84,0.55);
+  background-blend-mode:overlay;
+}
+
+.hero h2{
+  font-size:48px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:20px;
+}
+
+section{
+  padding:70px 10%;
+  background:rgba(255,255,255,0.92);
+  margin:25px auto;
+  border-radius:18px;
+}
+
+.section-title{
+  font-size:32px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:25px;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.contact-card{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:24px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+.contact-card h3{
+  color:#0d2c54;
+  margin-bottom:12px;
+  font-size:24px;
+}
+
+.contact-card p{
+  margin-bottom:10px;
+}
+
+.contact-card ul{
+  padding-left:18px;
+}
+
+.contact-card li{
+  margin-bottom:8px;
+}
+
+.notice{
+  background:#f8f8f8;
+  border-left:5px solid #d4af37;
+  padding:18px;
+  margin-bottom:25px;
+  border-radius:10px;
+}
+
+.cta-box{
+  text-align:center;
+  margin-top:30px;
+}
+
+.cta-button{
+  display:inline-block;
+  background:#0d2c54;
+  color:#fff;
+  padding:16px 34px;
+  border-radius:12px;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+.cta-button:hover{
+  background:#133b70;
+}
+
+.sub-button{
+  display:inline-block;
+  margin-top:16px;
+  color:#0d2c54;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.sub-button:hover{
+  color:#d4af37;
+}
+
+.email-box{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:20px;
+  margin-top:18px;
+}
+
+.email-box a{
+  color:#0d2c54;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.email-box a:hover{
+  color:#d4af37;
+}
+
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:40px;
+}
+
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero h2{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:17px;
+  }
+
+  .section-title{
+    font-size:26px;
+  }
+}
+
+#opening{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.curtain{
+  position:absolute;
+  top:0;
+  width:70%;
+  height:100%;
+  background:#000;
+  transition:transform 1.2s ease;
+}
+
+.curtain.left{
+  left:0;
+}
+
+.curtain.right{
+  right:0;
+}
+
+#opening.open .curtain.left{
+  transform:translateX(-100%);
+}
+
+#opening.open .curtain.right{
+  transform:translateX(100%);
+}
+
+.opening-logo{
+  position:relative;
+  z-index:3;
+  color:#fff;
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.opening-logo img{
+  width:120px;
+  margin-bottom:16px;
+}
+
+#opening.open .opening-logo{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+#opening.open{
+  background:transparent;
+  transition:background 0.5s;
+}
+
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+  body{
+    padding-top:110px;
+  }
+
+  header{
+    padding:8px 12px;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  header h1{
+    font-size:16px;
+  }
+
+  nav ul{
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  section{
+    padding:35px 5%;
+    margin:14px auto;
+    border-radius:12px;
+  }
+
+  .hero{
+    padding:70px 16px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+  }
+
+  .section-title{
+    font-size:22px;
+    margin-bottom:18px;
+  }
+
+  .slide{
+    padding:18px 20px;
+    gap:15px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:20px;
+    margin-bottom:10px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .prev,.next{
+    font-size:20px;
+    padding:8px 10px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .result-table{
+    width:100%;
+    table-layout:fixed;
+  }
+
+  .result-table th,
+  .result-table td{
+    font-size:12px;
+    padding:7px;
+    white-space:normal;
+    word-break:break-word;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="opening">
+  <div class="curtain left"></div>
+
+
+</div>
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">ホーム</a></li>
+<li><a href="index.html#introduction">部活紹介</a></li>
+<li><a href="index.html#schedule">活動日程</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="recruit.html">新歓情報</a></li>
+<li><a href="clubstudent.html">部員用ページ</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<h2>お問い合わせ</h2>
+<p>見学・体験参加・ご質問・スポンサーのご相談はこちらから</p>
+</section>
+
+<section class="fade">
+<h3 class="section-title">お問い合わせについて</h3>
+
+<div class="notice">
+・新歓、見学、体験参加、入部相談、スポンサー・協賛のご連絡を受け付けています。<br>
+・通常は数日以内に返信いたします。<br>
+・フォームから送っていただくと、内容の管理がしやすくスムーズです。
+</div>
+
+<div class="contact-grid">
+
+  <div class="contact-card">
+    <h3>見学・体験希望</h3>
+    <p>未経験でも大歓迎です。</p>
+    <p>「少し興味がある」くらいでも気軽にご連絡ください。</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>一般のお問い合わせ</h3>
+    <p>部活動のこと、練習のこと、大会についてなど、何でもお問い合わせください。</p>
+  </div>
+
+  <div class="contact-card">
+    <h3>スポンサー・協賛</h3>
+    <p>企業・団体・個人の皆様からのご相談も受け付けています。</p>
+    <ul>
+      <li>大会遠征費のご支援</li>
+      <li>衣装・備品等のご支援</li>
+      <li>イベント協賛</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="cta-box">
+  <a href="https://forms.gle/XXXXXXXXXXXX" target="_blank" class="cta-button">
+    Googleフォームでお問い合わせ
+  </a>
+  <br>
+  <a href="https://forms.gle/XXXXXXXXXXXX" target="_blank" class="sub-button">
+    フォームが開けない場合はこちら
+  </a>
+</div>
+</section>
+
+<section class="fade">
+<h3 class="section-title">直接メールで連絡する場合</h3>
+
+<div class="email-box">
+  <p>メールでのご連絡はこちら</p>
+  <p><a href="mailto:uec.danceclub@gmail.com">uec.danceclub@gmail.com</a></p>
+  <p style="margin-top:10px;">
+    件名の例：<br>
+    「見学希望」<br>
+    「スポンサーについて」
+  </p>
+</div>
+</section>
+
+<footer>
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+
+<script>
+/* ロゴ付き幕演出＋フェードイン */
+window.addEventListener("DOMContentLoaded", function(){
+  const opening = document.getElementById("opening");
+
+  setTimeout(function(){
+    opening.classList.add("open");
+  }, 500);
+
+  setTimeout(function(){
+    opening.classList.add("fadeout");
+  }, 1400);
+
+  setTimeout(function(){
+    opening.style.display = "none";
+  }, 2000);
+});
+
+/* ===== 順番フェード（完全版） ===== */
+
+const fades = document.querySelectorAll('.fade');
+
+function checkFade(){
+  const trigger = window.innerHeight * 0.85;
+
+  fades.forEach((el, index) => {
+
+    // すでに表示済みならスキップ
+    if(el.classList.contains('show')) return;
+
+    const top = el.getBoundingClientRect().top;
+
+    if(top < trigger){
+
+      // 順番に遅延させる
+      setTimeout(() => {
+        el.classList.add('show');
+      }, index * 120); // ← ここが気持ちよさの核
+    }
+  });
+}
+
+/* 初回（ロード時も自然に） */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(checkFade, 200);
+});
+
+window.addEventListener('scroll', checkFade);
+window.addEventListener('load', checkFade);
+
+</script>
+
+</body>
+</html>

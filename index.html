@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電気通信大学競技ダンス部</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+}
+
+/* ページ本体のフェードイン */
+#page-content{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 1s ease, transform 1s ease;
+}
+
+body.loaded #page-content{
+  opacity:1;
+  transform:translateY(0);
+}
+
+section{
+  padding:75px 10%;
+  background:rgba(255,255,255,0.88);
+  margin:24px auto;
+  border-radius:18px;
+}
+
+header{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h1{
+  font-size:24px;
+}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+nav a:hover{
+  color:#d4af37;
+}
+
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+  background-color:rgba(13,44,84,0.55);
+  background-blend-mode:overlay;
+}
+
+.hero-content h2{
+  font-size:52px;
+  margin-bottom:18px;
+}
+
+.hero-content p{
+  font-size:22px;
+}
+
+.section-title{
+  font-size:34px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:32px;
+}
+
+.news-list{
+  list-style:none;
+}
+
+.news-list li{
+  padding:14px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+
+.card{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:26px;
+  transition:0.25s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+}
+
+.card h3{
+  color:#0d2c54;
+  margin-bottom:12px;
+}
+
+.schedule table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.schedule th,.schedule td{
+  border:1px solid #ccc;
+  padding:12px;
+  text-align:center;
+}
+
+.schedule th{
+  background:#0d2c54;
+  color:#fff;
+}
+
+.cta{
+  background:#0d2c54;
+  color:#fff;
+  text-align:center;
+  padding:80px 10%;
+}
+
+.cta h2{
+  font-size:38px;
+  margin-bottom:12px;
+}
+
+.cta a{
+  display:inline-block;
+  margin-top:22px;
+  padding:15px 36px;
+  background:#d4af37;
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:10px;
+}
+
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:45px 20px;
+}
+
+.footer-links{
+  margin-bottom:22px;
+}
+
+.footer-links h3{
+  color:#fff;
+  margin-bottom:14px;
+}
+
+.footer-links a{
+  display:block;
+  margin:8px 0;
+  color:#d4af37;
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+  color:#fff;
+}
+
+/* スライダー全体 */
+.slider{
+  position:relative;
+  max-width:1200px;
+  margin:auto;
+  overflow:hidden;
+  border-radius:18px;
+}
+
+/* 横並び */
+.slider-track{
+  display:flex;
+  transition:transform 0.5s ease;
+}
+
+/* 1枚のスライド */
+.slide{
+  min-width:100%;
+  display:flex;
+  align-items:center;
+  gap:50px;
+  padding:40px 80px;
+  min-height:600px;
+  background:rgba(255,255,255,0.95);
+}
+
+/* 画像 */
+.slide img{
+  width:50%;
+  height:520px;
+  object-fit:cover;
+  object-position:center top;
+  border-radius:16px;
+}
+
+/* テキスト */
+.slide-text{
+  width:50%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+/* タイトル */
+.dance-title{
+  font-size:32px;
+  color:#0d2c54;
+  margin-bottom:20px;
+  white-space:nowrap;
+}
+
+/* 説明 */
+.dance-desc p{
+  margin-bottom:12px;
+  font-size:18px;
+}
+
+/* ボタン */
+.prev,.next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(0,0,0,0.45);
+  color:#fff;
+  border:none;
+  font-size:32px;
+  padding:16px 20px;
+  cursor:pointer;
+  z-index:10;
+  border-radius:12px;
+}
+
+.prev{ left:15px; }
+.next{ right:15px; }
+
+.prev:hover,.next:hover{
+  background:rgba(0,0,0,0.7);
+}
+
+/* オープニング全体 */
+#opening{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* 幕 */
+.curtain{
+  position:absolute;
+  top:0;
+  width:70%;
+  height:100%;
+  background:linear-gradient(to right,#000,#111);
+  transition:transform 1.4s ease;
+}
+
+.curtain.left{
+  left:0;
+}
+
+.curtain.right{
+  right:0;
+  background:linear-gradient(to left,#000,#111);
+}
+
+/* ロゴ */
+.opening-logo{
+  position:relative;
+  z-index:10001;
+  text-align:center;
+  color:#fff;
+  opacity:0;
+  transform:scale(0.94);
+  animation:logoFadeIn 0.8s ease forwards;
+  animation-delay:0.2s;
+}
+
+.opening-logo img{
+  width:120px;
+  max-width:28vw;
+  margin-bottom:18px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+}
+
+.opening-logo h2{
+  font-size:30px;
+  letter-spacing:0.08em;
+  margin-bottom:10px;
+}
+
+.opening-logo p{
+  font-size:14px;
+  letter-spacing:0.18em;
+  color:#d4af37;
+}
+
+@keyframes logoFadeIn{
+  from{
+    opacity:0;
+    transform:scale(0.94);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* 開く動き */
+#opening.open .left{
+  transform:translateX(-100%);
+}
+
+#opening.open .right{
+  transform:translateX(100%);
+}
+
+#opening.open .opening-logo{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+/* 開いたあと全体を消す */
+#opening.fadeout{
+  opacity:0;
+  transition:opacity 0.5s ease;
+}
+
+/* スマホ */
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero{
+    height:auto;
+    padding:100px 20px;
+  }
+
+  .hero-content h2{
+    font-size:34px;
+  }
+
+  .hero-content p{
+    font-size:18px;
+  }
+
+  .section-title{
+    font-size:28px;
+  }
+
+  .cta h2{
+    font-size:30px;
+  }
+
+  .slide{
+    flex-direction:column;
+    padding:30px 40px;
+    gap:25px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:300px;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:24px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:16px;
+  }
+
+  .prev,.next{
+    font-size:24px;
+    padding:10px 14px;
+  }
+
+  .opening-logo h2{
+    font-size:22px;
+  }
+
+  .opening-logo p{
+    font-size:12px;
+  }
+}
+
+#opening.open{
+  background:transparent;
+  transition:background 0.5s;
+}
+
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+  body{
+    padding-top:110px;
+  }
+
+  header{
+    padding:8px 12px;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  header h1{
+    font-size:16px;
+  }
+
+  nav ul{
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  section{
+    padding:35px 5%;
+    margin:14px auto;
+    border-radius:12px;
+  }
+
+  .hero{
+    padding:70px 16px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+  }
+
+  .section-title{
+    font-size:22px;
+    margin-bottom:18px;
+  }
+
+  .slide{
+    padding:18px 20px;
+    gap:15px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:20px;
+    margin-bottom:10px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .prev,.next{
+    font-size:20px;
+    padding:8px 10px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .result-table{
+    width:100%;
+    table-layout:fixed;
+  }
+
+  .result-table th,
+  .result-table td{
+    font-size:12px;
+    padding:7px;
+    white-space:normal;
+    word-break:break-word;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- オープニング演出 -->
+<div id="opening">
+  <div class="curtain left"></div>
+
+  <div class="opening-logo">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    </head>
+    <body>
+      
+    </body>
+    </html><img src="" alt="">
+    <h2>電気通信大学競技ダンス部</h2>
+    <p>UEC BALLROOM DANCE CLUB</p>
+  </div>
+</div>
+
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">ホーム</a></li>
+<li><a href="#introduction">部活紹介</a></li>
+<li><a href="#schedule">活動日程</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="recruit.html">新歓情報</a></li>
+<li><a href="clubstudent.html">部員用ページ</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<div id="page-content"></div>
+
+<section class="hero">
+<div class="hero-content">
+<h2></h2>
+<p></p>
+<p>大学生活、本気で熱中できる4年間を。</p>
+</div>
+</section>
+<section class="fade">
+<h2 class="section-title">Information</h2>
+<ul class="news-list">
+<li>2026.04.25　新歓バーベキューについてのお詫び</li>
+<li>2026.04.25　第118回国公立大学競技ダンス選手権大会結果報告</li>
+<li>2026.04.20　新歓スケジュールを更新しました</li>
+</ul>
+
+</section>
+
+<section class="fade">
+<section id="introduction">
+<h3 class="section-title">競技ダンス部とは</h3>
+<div class="slider" id="dance-slider">
+  <div class="slider-track">
+
+    <div class="slide">
+      <img src="team.jpg" alt="部活動の様子">
+      <div class="slide-text">
+        <h4 class="dance-title">競技ダンス研究部について</h4>
+        <div class="dance-desc">
+          <p>電気通信大学競技ダンス研究部は、初心者からでも始められる部活動です。</p>
+          <p>スタンダード・ラテンの計10種目を練習し、すべての大会での団体優勝を目標に活動しています。</p>
+          <p>週数回の練習を通して、技術だけでなく仲間との絆も深められるのが魅力です。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="W2026.jpg" alt="Waltz">
+      <div class="slide-text">
+        <h4 class="dance-title">Waltz</h4>
+        <div class="dance-desc">
+          <p>優雅で流れるようなスタンダード種目です。</p>
+          <p>ゆったりとした3拍子で、大きくなめらかに踊るのが特徴です。</p>
+          <p><p>
+          <p><p>
+          <p>写真:佐藤・安藤組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="T2026.jpg" alt="Tango">
+      <div class="slide-text">
+        <h4 class="dance-title">Tango</h4>
+        <div class="dance-desc">
+          <p>鋭さと力強さが魅力のスタンダード種目です。</p>
+          <p>止まる動きとキレのあるアクションで、緊張感のある雰囲気を表現します。</p>
+          <p><p>
+          <p><p>
+          <p>写真:堀部・徳嶽組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="Vw2026.jpg" alt="Viennese Waltz">
+      <div class="slide-text">
+        <h4 class="dance-title">Viennese Waltz</h4>
+        <div class="dance-desc">
+          <p>ワルツよりも速いテンポで回転し続けるスタンダード種目です。</p>
+          <p>華やかさとスピード感があり、フロアを大きく使って踊ります。</p>
+          <p><p>
+          <p><p>
+          <p>写真:武市・石毛組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="F2026.jpg" alt="Slow Foxtrot">
+      <div class="slide-text">
+        <h4 class="dance-title">Slow Foxtrot</h4>
+        <div class="dance-desc">
+          <p>滑るような移動が特徴のスタンダード種目です。</p>
+          <p>上品で落ち着いた雰囲気があり、技術力が問われるダンスです。</p>
+          <p><p>
+          <p><p>
+          <p>写真:柏本・佐々木組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="Q2026.jpg" alt="Quickstep">
+      <div class="slide-text">
+        <h4 class="dance-title">Quickstep</h4>
+        <div class="dance-desc">
+          <p>軽快で明るい雰囲気のスタンダード種目です。</p>
+          <p>速いテンポの中で、跳ねるような動きや楽しい表現が魅力です。</p>
+          <p><p>
+          <p><p>
+          <p>写真:八木・佐久間組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="C2026.jpg" alt="Cha Cha Cha">
+      <div class="slide-text">
+        <h4 class="dance-title">Cha Cha Cha</h4>
+        <div class="dance-desc">
+          <p>明るくリズミカルなラテン種目です。</p>
+          <p>歯切れのよいステップと楽しい表現で、見ていて元気になれるダンスです。</p>
+          <p><p>
+          <p><p>
+          <p>写真:沼田・和田組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="S2026.jpg" alt="Samba">
+      <div class="slide-text">
+        <h4 class="dance-title">Samba</h4>
+        <div class="dance-desc">
+          <p>弾むような動きが特徴のラテン種目です。</p>
+          <p>躍動感があり、エネルギッシュで明るい雰囲気を表現します。</p>
+          <p><p>
+          <p><p>
+          <p>写真:稲葉・樋口組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="R2026.jpg" alt="Rumba">
+      <div class="slide-text">
+        <h4 class="dance-title">Rumba</h4>
+        <div class="dance-desc">
+          <p>感情表現が魅力のラテン種目です。</p>
+          <p>ゆったりしたテンポの中で、男女の駆け引きや表情を丁寧に見せます。</p>
+          <p><p>
+          <p><p>
+          <p>写真:渡辺・伊藤組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="P2026.jpg" alt="Paso Doble">
+      <div class="slide-text">
+        <h4 class="dance-title">Paso Doble</h4>
+        <div class="dance-desc">
+          <p>闘牛をモチーフにした力強いラテン種目です。</p>
+          <p>堂々としたポーズや迫力ある動きで、ドラマチックに踊ります。</p>
+          <p><p>
+          <p><p>
+          <p>写真:松井・金田組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="J2026.jpg" alt="Jive">
+      <div class="slide-text">
+        <h4 class="dance-title">Jive</h4>
+        <div class="dance-desc">
+          <p>スピード感あふれるラテン種目です。</p>
+          <p>軽快なキックや跳ねる動きが多く、最後まで勢いのあるダンスです。</p>
+          <p><p>
+          <p><p>
+          <p>写真:安田・池田組<p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <img src="FM1.jpg" alt="フォーメーション">
+      <div class="slide-text">
+        <h4 class="dance-title">フォーメーション（FM）</h4>
+        <div class="dance-desc">
+          <p>複数のカップルで構成される団体競技です。</p>
+          <p>音楽に合わせて隊形を変えながら踊り、統一感と迫力が魅力です。</p>
+          <p>大会では団体の総合力が問われる重要な種目です。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="prev" type="button" aria-label="前のスライド" onclick="prevSlide()">‹</button>
+  <button class="next" type="button" aria-label="次のスライド" onclick="nextSlide()">›</button>
+</div>
+</section>
+</section>
+<section class="fade">
+<section class="schedule" id="schedule">
+<h2 class="section-title">活動日程</h2>
+
+<table>
+<tr>
+<th>曜日</th>
+<th>内容</th>
+</tr>
+<tr>
+<td>月</td>
+<td>自主練</td>
+</tr>
+<tr>
+<td>火</td>
+<td>練習会・自主練</td>
+</tr>
+<tr>
+<td>水</td>
+<td>自主練</td>
+</tr>
+<tr>
+<td>木</td>
+<td>フロア開放</td>
+</tr>
+<tr>
+<td>金</td>
+<td>フロア開放</td>
+</tr>
+<tr>
+<td>土</td>
+<td>練習会・自主練</td>
+</tr>
+<tr>
+<td>日</td>
+<td>大会・イベント等</td>
+</tr>
+</table>
+</section>
+</section>
+<section class="fade">
+<h2 class="section-title">初心者歓迎！</h2>
+
+<div class="cards">
+<div class="card">
+<h3>未経験OK</h3>
+<p>部員の99.9%が大学から始めています。</p>
+</div>
+
+<div class="card">
+<h3>優勝を狙える</h3>
+<p>全国では団体準優勝・FM優勝を納めています。</p>
+</div>
+
+<div class="card">
+<h3>仲間ができる</h3>
+<p>学年・男女問わず一生の仲間ができます。</p>
+</div>
+
+<div class="card">
+<h3>充実した大学生活</h3>
+<p>大会・合宿・イベント多数。</p>
+</div>
+
+<div class="card">
+<h3>お金も稼げる</h3>
+<p>ダンスバイト最高</p>
+</div>
+
+</div>
+</section>
+
+<section class="fade">
+<section class="cta" id="contact">
+<h2>新入部員募集中！</h2>
+<p>見学・体験参加いつでも歓迎です。</p>
+<a href="contact.html">お問い合わせはこちら</a>
+</section>
+</section>
+<footer>
+<div class="footer-links">
+<h3>関連リンク</h3>
+
+<a href="https://www.uec.ac.jp/campus/club/" target="_blank">電気通信大学 学友会</a>
+<a href="https://tobugakuren.com/" target="_blank">東部日本学生競技ダンス連盟</a>
+<a href="https://ajdc.or.jp/" target="_blank">全日本学生競技ダンス連盟</a>
+<a href="http://www.ballroomdance.club.uec.ac.jp/">電気通信大学競技ダンス部旧website</a>
+</div>
+
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+
+</div>
+
+<script>
+let current = 0;
+const track = document.querySelector(".slider-track");
+const slides = document.querySelectorAll(".slide");
+const slider = document.querySelector("#dance-slider");
+
+function updateSlider(){
+  track.style.transform = `translateX(-${current * 100}%)`;
+}
+
+function nextSlide(){
+  current = (current + 1) % slides.length;
+  updateSlider();
+}
+
+function prevSlide(){
+  current = (current - 1 + slides.length) % slides.length;
+  updateSlider();
+}
+
+/* スワイプ対応 */
+let startX = 0;
+let endX = 0;
+let isDragging = false;
+
+slider.addEventListener("touchstart", function(e){
+  startX = e.touches[0].clientX;
+  endX = e.touches[0].clientX;
+  isDragging = true;
+}, {passive:true});
+
+slider.addEventListener("touchmove", function(e){
+  if(!isDragging) return;
+  endX = e.touches[0].clientX;
+}, {passive:true});
+
+slider.addEventListener("touchend", function(){
+  if(!isDragging) return;
+
+  const diff = startX - endX;
+
+  if(diff > 50){
+    nextSlide();
+  }else if(diff < -50){
+    prevSlide();
+  }
+
+  startX = 0;
+  endX = 0;
+  isDragging = false;
+});
+
+/* ロゴ付き幕演出＋フェードイン */
+document.addEventListener("DOMContentLoaded", function(){
+  const opening = document.getElementById("opening");
+
+  setTimeout(function(){
+    opening.classList.add("open");
+  }, 400);
+
+  setTimeout(function(){
+    opening.classList.add("fadeout");
+  }, 1900);
+
+  setTimeout(function(){
+    opening.style.display = "none";
+  }, 2600);
+});
+
+
+/* ===== 順番フェード（完全版） ===== */
+
+const fades = document.querySelectorAll('.fade');
+
+function checkFade(){
+  const trigger = window.innerHeight * 0.85;
+
+  fades.forEach((el, index) => {
+
+    // すでに表示済みならスキップ
+    if(el.classList.contains('show')) return;
+
+    const top = el.getBoundingClientRect().top;
+
+    if(top < trigger){
+
+      // 順番に遅延させる
+      setTimeout(() => {
+        el.classList.add('show');
+      }, index * 120); // ← ここが気持ちよさの核
+    }
+  });
+}
+
+/* 初回（ロード時も自然に） */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(checkFade, 200);
+});
+
+window.addEventListener('scroll', checkFade);
+window.addEventListener('load', checkFade);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大会結果 | 電気通信大学競技ダンス部</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+}
+
+header{
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{
+  font-size:24px;
+}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+nav a:hover{
+  color:#d4af37;
+}
+
+section{
+  padding:75px 10%;
+  background:rgba(255,255,255,0.88);
+  margin:24px auto;
+  border-radius:18px;
+}
+
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+  background-color:rgba(13,44,84,0.55);
+  background-blend-mode:overlay;
+}
+
+.hero h2{
+  font-size:52px;
+  margin-bottom:18px;
+}
+
+.hero p{
+  font-size:22px;
+}
+
+.section-title{
+  font-size:34px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:32px;
+}
+
+.accordion{
+  border:1px solid #ddd;
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:18px;
+  background:#fff;
+}
+
+.accordion-btn{
+  width:100%;
+  background:#0d2c54;
+  color:#fff;
+  border:none;
+  padding:18px 24px;
+  text-align:left;
+  font-size:24px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.accordion-btn:hover{
+  background:#133b70;
+}
+
+.accordion-content{
+  display:none;
+  padding:25px;
+  background:#fff;
+}
+
+.accordion-content.open{
+  display:block;
+}
+
+.event-card{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:24px;
+  margin-bottom:28px;
+}
+
+.event-card h4{
+  color:#0d2c54;
+  font-size:24px;
+  margin-bottom:12px;
+}
+
+.event-meta{
+  margin-bottom:16px;
+}
+
+.event-meta p{
+  margin-bottom:4px;
+}
+
+.result-subtitle{
+  font-weight:bold;
+  color:#0d2c54;
+  margin:16px 0 10px;
+}
+
+.result-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-bottom:16px;
+  background:#fff;
+}
+
+.result-table th,
+.result-table td{
+  border:1px solid #ccc;
+  padding:10px;
+  text-align:left;
+  vertical-align:top;
+}
+
+.result-table th{
+  background:#edf3fa;
+}
+
+.gold{
+  color:#c59d00;
+  font-weight:bold;
+}
+
+.event-link{
+  display:inline-block;
+  margin-top:6px;
+  color:#0d2c54;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.event-link:hover{
+  color:#d4af37;
+}
+
+.notice{
+  background:#f8f8f8;
+  border-left:5px solid #d4af37;
+  padding:18px;
+  border-radius:10px;
+}
+
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:45px 20px;
+}
+
+.footer-links{
+  margin-bottom:22px;
+}
+
+.footer-links h3{
+  color:#fff;
+  margin-bottom:14px;
+}
+
+.footer-links a{
+  display:block;
+  margin:8px 0;
+  color:#d4af37;
+  text-decoration:none;
+}
+
+.footer-links a:hover{
+  color:#fff;
+}
+
+@media(max-width:768px){
+
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero{
+    height:auto;
+    padding:100px 20px;
+  }
+
+  .hero h2{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:18px;
+  }
+
+  .section-title{
+    font-size:28px;
+  }
+
+  .accordion-btn{
+    font-size:20px;
+  }
+
+  .event-card h4{
+    font-size:20px;
+  }
+
+  .result-table{
+    font-size:14px;
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+}
+
+#opening{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.curtain{
+  position:absolute;
+  top:0;
+  width:70%;
+  height:100%;
+  background:#000;
+  transition:transform 1.2s ease;
+}
+
+.curtain.left{
+  left:0;
+}
+
+.curtain.right{
+  right:0;
+}
+
+#opening.open .curtain.left{
+  transform:translateX(-100%);
+}
+
+#opening.open .curtain.right{
+  transform:translateX(100%);
+}
+
+.opening-logo{
+  position:relative;
+  z-index:3;
+  color:#fff;
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.opening-logo img{
+  width:120px;
+  margin-bottom:16px;
+}
+
+#opening.open .opening-logo{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+#opening.open{
+  background:transparent;
+  transition:background 0.5s;
+}
+
+/* ===== フェード（スクロール） ===== */
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+  body{
+    padding-top:110px;
+  }
+
+  header{
+    padding:8px 12px;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  header h1{
+    font-size:16px;
+  }
+
+  nav ul{
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  section{
+    padding:35px 5%;
+    margin:14px auto;
+    border-radius:12px;
+  }
+
+  .hero{
+    padding:70px 16px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+  }
+
+  .section-title{
+    font-size:22px;
+    margin-bottom:18px;
+  }
+
+  .slide{
+    padding:18px 20px;
+    gap:15px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:20px;
+    margin-bottom:10px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .prev,.next{
+    font-size:20px;
+    padding:8px 10px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .result-table{
+    width:100%;
+    table-layout:fixed;
+  }
+
+  .result-table th,
+  .result-table td{
+    font-size:12px;
+    padding:7px;
+    white-space:normal;
+    word-break:break-word;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="opening">
+  <div class="curtain left"></div>
+
+
+</div>  
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">ホーム</a></li>
+<li><a href="index.html#introduction">部活紹介</a></li>
+<li><a href="index.html#schedule">活動日程</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="recruit.html">新歓情報</a></li>
+<li><a href="clubstudent.html">部員用ページ</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<h2>大会結果</h2>
+<p>年度別に戦績を掲載しています</p>
+</section>
+
+<section>
+<h3 class="section-title">年度別大会結果</h3>
+
+<div class="accordion">
+  <button class="accordion-btn" onclick="toggleAccordion('a2026')">▶ 2026年度</button>
+  <div class="accordion-content" id="a2026">
+
+  </div>
+</div>
+
+<div class="accordion">
+  <button class="accordion-btn" onclick="toggleAccordion('a2025')">▶ 2025年度</button>
+  <div class="accordion-content" id="a2025">
+    
+    <div class="event-card">
+  <h4>第118回国公立大学競技ダンス選手権大会</h4>
+
+  <div class="event-meta">
+    <p>開催日時：2025/12/14</p>
+    <p>開催場所：東京科学大学</p>
+    <p>団体の部：2位</p>
+  </div>
+
+  <div class="result-subtitle">個人の部 Sr</div>
+  <table class="result-table">
+    <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+    <tr><td>Waltz</td><td>武市・石毛組</td><td class="gold">優勝</td></tr>
+    <tr><td>Waltz</td><td>谷澤・米澤組</td><td>8位</td></tr>
+    <tr><td>Waltz</td><td>田中・植島組</td><td>8位</td></tr>
+    <tr><td>Tango</td><td>武市・石毛組</td><td>8位</td></tr>
+    <tr><td>Tango</td><td>谷澤・米澤組</td><td>6位</td></tr>
+    <tr><td>Tango</td><td>田中・植島組</td><td>9位</td></tr>
+    <tr><td>Slow Foxtrot</td><td>武市・石毛組</td><td>準優勝</td></tr>
+    <tr><td>Slow Foxtrot</td><td>田中・植島組</td><td>7位</td></tr>
+    <tr><td>Slow Foxtrot</td><td>谷澤・米澤組</td><td>11位</td></tr>
+    <tr><td>Quickstep</td><td>武市・石毛組</td><td>3位</td></tr>
+    <tr><td>Quickstep</td><td>谷澤・米澤組</td><td>9位</td></tr>
+    <tr><td>Viennese Waltz</td><td>武市・池田組</td><td class="gold">優勝</td></tr>
+    <tr><td>Viennese Waltz</td><td>田中・植島組</td><td>7位</td></tr>
+    <tr><td>Viennese Waltz</td><td>谷澤・米澤組</td><td>9位</td></tr>
+    <tr><td>Cha Cha Cha</td><td>安田・池田組</td><td>準優勝</td></tr>
+    <tr><td>Cha Cha Cha</td><td>ソレンティノ・宮原組</td><td>8位</td></tr>
+    <tr><td>Cha Cha Cha</td><td>宮川・山口組</td><td>8位</td></tr>
+    <tr><td>Samba</td><td>安田・池田組</td><td class="gold">優勝</td></tr>
+    <tr><td>Samba</td><td>刀禰・福田組</td><td>11位</td></tr>
+    <tr><td>Samba</td><td>宮川・山口組</td><td>11位</td></tr>
+    <tr><td>Rumba</td><td>安田・池田組</td><td>準優勝</td></tr>
+    <tr><td>Rumba</td><td>刀禰・福田組</td><td>10位</td></tr>
+    <tr><td>Rumba</td><td>南・中村組</td><td>10位</td></tr>
+    <tr><td>Rumba</td><td>宮川・山口組</td><td>10位</td></tr>
+    <tr><td>Paso Doble</td><td>安田・池田組</td><td>準優勝</td></tr>
+    <tr><td>Jive</td><td>安田・池田組</td><td class="gold">優勝</td></tr>
+  </table>
+
+  <div class="result-subtitle">個人の部 Jr</div>
+  <table class="result-table">
+    <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+    <tr><td>Tango</td><td>生野・韓組</td><td>10位</td></tr>
+    <tr><td>Slow Foxtrot</td><td>朴・榛澤組</td><td>5位</td></tr>
+    <tr><td>Slow Foxtrot</td><td>小池・賀部組</td><td>6位</td></tr>
+    <tr><td>Samba</td><td>朴・佐藤組</td><td>7位</td></tr>
+    <tr><td>Samba</td><td>生野・賀部組</td><td>8位</td></tr>
+    <tr><td>Samba</td><td>小池・韓組</td><td>10位</td></tr>
+    <tr><td>Paso Doble</td><td>生野・賀部組</td><td>5位</td></tr>
+    <tr><td>Paso Doble</td><td>朴・韓組</td><td>6位</td></tr>
+    <tr><td>Paso Doble</td><td>川嶋・北村組</td><td>10位</td></tr>
+  </table>
+
+  <a class="event-link" href="https://www.youtube.com/@2025UECballroom" target="_blank">
+    ▶ 試合動画はこちら
+  </a>
+</div>
+
+    <div class="event-card">
+      <h4>第47回ツバメ杯争奪学生競技ダンス選手権大会</h4>
+      <div class="event-meta">
+        <p>開催日時：2025/12/14</p>
+        <p>開催場所：東京科学大学</p>
+        <p>団体の部：3位</p>
+      </div>
+
+      <div class="result-subtitle">個人の部 Sr</div>
+      <table class="result-table">
+        <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+        <tr><td>St総合</td><td>武市・石毛組</td><td>2位</td></tr>
+        <tr><td>La総合</td><td>安田・池田組</td><td>3位</td></tr>
+      </table>
+
+      <div class="result-subtitle">個人の部 Jr</div>
+      <table class="result-table">
+        <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+        <tr><td>Tango</td><td>小池・榛澤組</td><td>4位</td></tr>
+        <tr><td>Tango</td><td>朴・加納組</td><td>6位</td></tr>
+        <tr><td>Slowfoxtrot</td><td>朴・北村組</td><td>5位</td></tr>
+        <tr><td>Slowfoxtrot</td><td>小池・大橋組</td><td>5位</td></tr>
+        <tr><td>Sumba</td><td>朴・韓組</td><td>5位</td></tr>
+        <tr><td>Sumba</td><td>川嶋・榛澤組</td><td>11位</td></tr>
+      </table>
+      
+      <a class="event-link" href="https://www.youtube.com/@2025UECballroom" target="_blank">▶ 試合動画はこちら</a>
+    </div>
+
+    <div class="event-card">
+      <h4>第70回全日本学生競技ダンス選手権大会</h4>
+      <div class="event-meta">
+        <p>開催日時：2025/12/7</p>
+        <p>開催場所：獨協大学</p>
+        <p>団体の部：2位</p>
+        <p>FMの部：2位</p>
+      </div>
+
+      <table class="result-table">
+        <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+        <tr><td>Waltz</td><td>佐藤・安藤組</td><td class="gold">優勝</td></tr>
+        <tr><td>Waltz</td><td>古川・廣瀬組</td><td>5位</td></tr>
+        <tr><td>Tango</td><td>柏本・佐々木組</td><td>8位</td></tr>
+        <tr><td>Tango</td><td>堀部・徳嶽組</td><td>12位</td></tr>
+        <tr><td>Quick Step</td><td>武市・石毛組</td><td>4位</td></tr>
+        <tr><td>ChaChaCha</td><td>沼田・和田組</td><td>4位</td></tr>
+        <tr><td>ChaChaCha</td><td>安田・池田組</td><td>6位</td></tr>
+        <tr><td>Rumba</td><td>奥山・栗栖組</td><td>3位</td></tr>
+        <tr><td>Rumba</td><td>渡辺・伊藤組</td><td>8位</td></tr>
+        <tr><td>Paso Doble</td><td>松井・金田組</td><td class="gold">優勝</td></tr>
+      </table>
+
+      <a class="event-link" href="https://www.youtube.com/@2025UECballroom" target="_blank">▶ 試合動画はこちら</a>
+    </div>
+
+    <div class="notice">
+      2025年度はこの形式で順次追加してください。今ある実データも同じ event-card を複製すれば増やせます。
+    </div>
+
+  </div>
+</div>
+
+<div class="accordion">
+<button class="accordion-btn" onclick="toggleAccordion('a2024')">▶ 2024年度</button>
+<div class="accordion-content" id="a2024">
+
+  <div class="event-card">
+    <h4>ジュニア東部選手権大会</h4>
+    <div class="event-meta">
+      <p>開催日時：2025/1/12</p>
+      <p>開催場所：電気通信大学</p>
+      <p>団体の部：5位</p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Jr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Slow Foxtrot</td><td>谷澤・米沢組</td><td class="gold">優勝</td></tr>
+      <tr><td>Samba</td><td>吉田・平井組</td><td>10位</td></tr>
+      <tr><td>Paso Doble</td><td>吉田・長坂組</td><td>9位</td></tr>
+    </table>
+  </div>
+
+  <div class="event-card">
+    <h4>第46回ツバメ杯争奪学生競技ダンス選手権大会</h4>
+    <div class="event-meta">
+      <p>開催日時：2024/12/22</p>
+      <p>開催場所：東京科学大学</p>
+      <p>団体の部：5位</p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Sr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>St総合</td><td>佐藤・安藤組</td><td class="gold">優勝</td></tr>
+      <tr><td>St総合</td><td>堀部・徳嶽組</td><td>7位</td></tr>
+      <tr><td>St総合</td><td>武市・石毛組</td><td>11位</td></tr>
+      <tr><td>La総合</td><td>沼田・和田組</td><td>2位</td></tr>
+      <tr><td>La総合</td><td>松井・金田組</td><td>3位</td></tr>
+      <tr><td>La総合</td><td>安田・池田組</td><td>7位</td></tr>
+    </table>
+
+    <div class="result-subtitle">個人の部 Jr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>ChaChaCha</td><td>谷澤・黒河組</td><td>12位</td></tr>
+    </table>
+  </div>
+
+  <div class="event-card">
+    <h4>第23回東部日本学生競技ダンス選手権大会後期新人戦</h4>
+    <div class="event-meta">
+      <p>開催日時：2024/12/15</p>
+      <p>開催場所：獨協大学</p>
+      <p>団体の部：<span class="gold">優勝</span></p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Sr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Waltz</td><td>佐藤・安藤組</td><td class="gold">優勝</td></tr>
+      <tr><td>Waltz</td><td>八木・作間組</td><td>13位</td></tr>
+      <tr><td>Quick Step</td><td>堀部・徳嶽組</td><td>12位</td></tr>
+      <tr><td>ChaChaCha</td><td>松井・金田組</td><td>2位</td></tr>
+      <tr><td>ChaChaCha</td><td>沼田・和田組</td><td>3位</td></tr>
+      <tr><td>ChaChaCha</td><td>ソレンティノ・宮原組</td><td>7位</td></tr>
+      <tr><td>ChaChaCha</td><td>稲葉・樋口組</td><td>10位</td></tr>
+      <tr><td>Rumba</td><td>渡辺・伊藤組</td><td>6位</td></tr>
+    </table>
+
+    <div class="result-subtitle">個人の部 Jr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Waltz</td><td>谷澤・長坂組</td><td>6位</td></tr>
+      <tr><td>Waltz</td><td>田中・眞田組</td><td>9位</td></tr>
+      <tr><td>Rumba</td><td>吉田・米沢組</td><td>5位</td></tr>
+      <tr><td>Rumba</td><td>田中・山口組</td><td>7位</td></tr>
+    </table>
+  </div>
+
+  <div class="event-card">
+    <h4>第70回全日本競技ダンス選手権大会</h4>
+    <div class="event-meta">
+      <p>開催日時：2024/12/08</p>
+      <p>開催場所：獨協大学</p>
+      <p>団体の部：2位</p>
+      <p>FMの部：<span class="gold">優勝</span></p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Sr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Waltz</td><td>佐藤・安藤組</td><td>4位</td></tr>
+      <tr><td>Tango</td><td>前田・津田組</td><td>2位</td></tr>
+      <tr><td>Tango</td><td>ヤマシタ・堀内組</td><td>4位</td></tr>
+      <tr><td>Slow Foxtrot</td><td>岩崎・山本組</td><td>7位</td></tr>
+      <tr><td>Quickstep</td><td>福島・福田組</td><td>7位</td></tr>
+      <tr><td>ChaChaCha</td><td>梶原・幕田組</td><td class="gold">優勝</td></tr>
+      <tr><td>Samba</td><td>臼田・渡邉組</td><td>7位</td></tr>
+      <tr><td>Paso Doble</td><td>北本・吉田組</td><td>4位</td></tr>
+      <tr><td>Paso Doble</td><td>池上・中村組</td><td>3位</td></tr>
+    </table>
+  </div>
+
+  <div class="event-card">
+    <h4>第8回東部日本学生ダンスミニ選手権大会</h4>
+    <div class="event-meta">
+      <p>開催日時：2024/11/17</p>
+      <p>開催場所：東京科学大学</p>
+      <p>団体の部：3位</p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Sr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>St</td><td>佐藤・安藤組</td><td>2位</td></tr>
+      <tr><td>St</td><td>堀部・徳嶽組</td><td>9位</td></tr>
+      <tr><td>La</td><td>沼田・和田組</td><td>2位</td></tr>
+      <tr><td>La</td><td>松井・金田組</td><td>5位</td></tr>
+      <tr><td>La</td><td>渡辺・伊藤組</td><td>6位</td></tr>
+      <tr><td>La</td><td>安田・池田組</td><td>9位</td></tr>
+    </table>
+
+    <div class="result-subtitle">個人の部 Jr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Waltz</td><td>佐野・山口組</td><td>12位</td></tr>
+      <tr><td>Quickstep</td><td>谷澤・高橋組</td><td>2位</td></tr>
+      <tr><td>Quickstep</td><td>吉田・黒河組</td><td>11位</td></tr>
+      <tr><td>Rumba</td><td>谷澤・米沢組</td><td>7位</td></tr>
+      <tr><td>Rumba</td><td>田島・黒河組</td><td>12位</td></tr>
+    </table>
+  </div>
+
+  <div class="event-card">
+    <h4>第114回東部日本学生競技ダンス選手権大会</h4>
+    <div class="event-meta">
+      <p>開催日時：2024/11/10</p>
+      <p>開催場所：新都市ホール</p>
+      <p>団体の部：<span class="gold">優勝</span></p>
+      <p>フォーメーションの部：<span class="gold">優勝</span></p>
+    </div>
+
+    <div class="result-subtitle">個人の部 Sr</div>
+    <table class="result-table">
+      <tr><th>種目</th><th>カップル</th><th>成績</th></tr>
+      <tr><td>Waltz</td><td>武市・石毛組</td><td>5位</td></tr>
+      <tr><td>Waltz</td><td>堀部・徳嶽組</td><td>10位</td></tr>
+      <tr><td>Tango</td><td>ヤマシタ・堀内組</td><td>3位</td></tr>
+      <tr><td>Tango</td><td>前田・津田組</td><td>4位</td></tr>
+      <tr><td>Tango</td><td>福島・福田組</td><td>8位</td></tr>
+      <tr><td>Slow Foxtrot</td><td>岩崎・山本組</td><td>4位</td></tr>
+      <tr><td>Slow Foxtrot</td><td>堀川・伊藤組</td><td>11位</td></tr>
+      <tr><td>Quick Step</td><td>岩崎・山本組</td><td>4位</td></tr>
+      <tr><td>Quick Step</td><td>前田・津田組</td><td>5位</td></tr>
+      <tr><td>Quick Step</td><td>ヤマシタ・堀内組</td><td>6位</td></tr>
+      <tr><td>Quick Step</td><td>福島・山本組</td><td>7位</td></tr>
+      <tr><td>Quick Step</td><td>堀川・伊藤組</td><td>11位</td></tr>
+      <tr><td>ChaChaCha</td><td>梶原・幕田組</td><td>4位</td></tr>
+      <tr><td>Samba</td><td>梶原・幕田組</td><td>3位</td></tr>
+      <tr><td>Samba</td><td>臼田・渡邉組</td><td>4位</td></tr>
+      <tr><td>Samba</td><td>北本・吉田組</td><td>6位</td></tr>
+      <tr><td>Rumba</td><td>臼田・渡邉組</td><td>3位</td></tr>
+      <tr><td>Paso Doble</td><td>池上・中村組</td><td>2位</td></tr>
+      <tr><td>Paso Doble</td><td>北本・吉田組</td><td>3位</td></tr>
+      <tr><td>Paso Doble</td><td>鍛冶・土屋組</td><td>4位</td></tr>
+    </table>
+  </div>
+
+  <div class="notice">
+    2024年度前期は旧website参照
+  </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <button class="accordion-btn" onclick="toggleAccordion('a2023')">▶ 2023年度</button>
+  <div class="accordion-content" id="a2023">
+    <div class="notice">
+      旧website参照
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <button class="accordion-btn" onclick="toggleAccordion('a2022')">▶ 2022年度</button>
+  <div class="accordion-content" id="a2022">
+    <div class="notice">
+      旧website参照
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <button class="accordion-btn" onclick="toggleAccordion('a2021')">▶ 2021年度</button>
+  <div class="accordion-content" id="a2021">
+    <div class="notice">
+      旧website参照
+    </div>
+  </div>
+</div>
+
+</section>
+
+<footer>
+<div class="footer-links">
+<h3>関連リンク</h3>
+
+<a href="https://www.uec.ac.jp/campus/club/" target="_blank">電気通信大学 学友会</a>
+<a href="https://tobugakuren.com/" target="_blank">東部日本学生競技ダンス連盟</a>
+<a href="https://ajdc.or.jp/" target="_blank">全日本学生競技ダンス連盟</a>
+</div>
+
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+
+<script>
+function toggleAccordion(id){
+  const contents = document.querySelectorAll('.accordion-content');
+  const buttons = document.querySelectorAll('.accordion-btn');
+  const target = document.getElementById(id);
+  const isOpen = target.classList.contains('open');
+
+  contents.forEach(function(content){
+    content.classList.remove('open');
+  });
+
+  buttons.forEach(function(btn){
+    btn.innerHTML = btn.innerHTML.replace('▼','▶');
+  });
+
+  if(!isOpen){
+    target.classList.add('open');
+    const activeBtn = document.querySelector('[onclick="toggleAccordion(\'' + id + '\')"]');
+    activeBtn.innerHTML = activeBtn.innerHTML.replace('▶','▼');
+  }
+}
+
+/* ロゴ付き幕演出＋フェードイン */
+window.addEventListener("DOMContentLoaded", function(){
+  const opening = document.getElementById("opening");
+
+  setTimeout(function(){
+    opening.classList.add("open");
+  }, 500);
+
+  setTimeout(function(){
+    opening.classList.add("fadeout");
+  }, 1400);
+
+  setTimeout(function(){
+    opening.style.display = "none";
+  }, 2000);
+});
+
+</script>
+
+</body>
+</html>

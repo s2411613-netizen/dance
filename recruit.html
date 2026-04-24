@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新歓情報 | 電気通信大学競技ダンス部</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;
+  color:#222;
+  line-height:1.7;
+  padding-top:80px;
+  background:url("FM2.jpg") center/cover no-repeat fixed;
+}
+
+header{
+  background:linear-gradient(to bottom,rgba(0,0,0,0.8),rgba(0,0,0,0.1));
+  color:#fff;
+  padding:15px 40px;
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header h1{font-size:24px;}
+
+nav ul{
+  display:flex;
+  gap:24px;
+  list-style:none;
+}
+
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+nav a:hover{color:#d4af37;}
+
+.hero{
+  background:
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("dance.jpg") center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  padding:100px 20px;
+  background-color:rgba(13,44,84,0.55);
+  background-blend-mode:overlay;
+}
+
+.hero h2{
+  font-size:52px;
+  margin-bottom:18px;
+}
+
+.hero p{font-size:22px;}
+
+section{
+  padding:75px 10%;
+  background:rgba(255,255,255,0.88);
+  margin:24px auto;
+  border-radius:18px;
+}
+
+.section-title{
+  font-size:34px;
+  color:#0d2c54;
+  border-left:6px solid #d4af37;
+  padding-left:15px;
+  margin-bottom:32px;
+}
+
+.video{
+  max-width:900px;
+  margin:auto;
+}
+
+.video iframe{
+  width:100%;
+  height:500px;
+  border:none;
+  border-radius:16px;
+}
+
+.schedule-images{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.schedule-card{
+  background:#fafafa;
+  padding:24px;
+  border-radius:14px;
+  border:1px solid #ddd;
+  text-align:center;
+}
+
+.schedule-card h4{
+  color:#0d2c54;
+  margin-bottom:14px;
+}
+
+.schedule-card img{
+  width:100%;
+  border-radius:12px;
+}
+
+.sns{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+
+.sns a{
+  text-align:center;
+  padding:20px;
+  border-radius:12px;
+  color:#fff;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.twitter{background:#1DA1F2;}
+.insta{background:#E1306C;}
+
+.line-button{
+  display:inline-block;
+  margin-top:20px;
+  padding:16px 34px;
+  background:#06C755;
+  color:#fff;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.line-button:hover{filter:brightness(0.9);}
+
+.qa-box{
+  background:#fafafa;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+.qa-box h4{
+  color:#0d2c54;
+  margin-bottom:8px;
+}
+
+footer{
+  background:#111;
+  color:#aaa;
+  text-align:center;
+  padding:45px 20px;
+}
+
+.footer-links{
+  margin-bottom:22px;
+}
+
+.footer-links h3{
+  color:#fff;
+  margin-bottom:14px;
+}
+
+.footer-links a{
+  display:block;
+  margin:8px 0;
+  color:#d4af37;
+  text-decoration:none;
+}
+
+.footer-links a:hover{color:#fff;}
+
+@media(max-width:768px){
+  header{
+    flex-direction:column;
+    gap:15px;
+  }
+
+  nav ul{
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  .hero h2{font-size:34px;}
+  .hero p{font-size:18px;}
+  .section-title{font-size:28px;}
+
+  .video iframe{
+    height:260px;
+  }
+}
+
+#opening{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:99999;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.curtain{
+  position:absolute;
+  top:0;
+  width:70%;
+  height:100%;
+  background:#000;
+  transition:transform 1.2s ease;
+}
+
+.curtain.left{
+  left:0;
+}
+
+.curtain.right{
+  right:0;
+}
+
+#opening.open .curtain.left{
+  transform:translateX(-100%);
+}
+
+#opening.open .curtain.right{
+  transform:translateX(100%);
+}
+
+.opening-logo{
+  position:relative;
+  z-index:3;
+  color:#fff;
+  text-align:center;
+  animation:fadeIn 1s ease;
+}
+
+.opening-logo img{
+  width:120px;
+  margin-bottom:16px;
+}
+
+#opening.open .opening-logo{
+  opacity:0;
+  transition:opacity 0.4s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:scale(0.95);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+#opening.open{
+  background:transparent;
+  transition:background 0.3s;
+}
+
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 0.8s ease;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:768px){
+
+  body{
+    padding-top:110px;
+  }
+
+  header{
+    padding:8px 12px;
+    flex-direction:column;
+    gap:6px;
+  }
+
+  header h1{
+    font-size:16px;
+  }
+
+  nav ul{
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  section{
+    padding:35px 5%;
+    margin:14px auto;
+    border-radius:12px;
+  }
+
+  .hero{
+    padding:70px 16px;
+  }
+
+  .hero-content h2{
+    font-size:28px;
+  }
+
+  .hero-content p{
+    font-size:15px;
+  }
+
+  .section-title{
+    font-size:22px;
+    margin-bottom:18px;
+  }
+
+  .slide{
+    padding:18px 20px;
+    gap:15px;
+    min-height:auto;
+  }
+
+  .slide img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+  }
+
+  .slide-text{
+    width:100%;
+    text-align:center;
+    align-items:center;
+  }
+
+  .dance-title{
+    font-size:20px;
+    margin-bottom:10px;
+    white-space:normal;
+  }
+
+  .dance-desc p{
+    font-size:14px;
+    margin-bottom:6px;
+  }
+
+  .prev,.next{
+    font-size:20px;
+    padding:8px 10px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .result-table{
+    width:100%;
+    table-layout:fixed;
+  }
+
+  .result-table th,
+  .result-table td{
+    font-size:12px;
+    padding:7px;
+    white-space:normal;
+    word-break:break-word;
+  }
+}
+
+</style>
+</head>
+
+<div id="opening">
+  <div class="curtain left"></div>
+
+
+</div>
+
+<body>
+
+<header>
+<h1>電気通信大学競技ダンス部</h1>
+
+<nav>
+<ul>
+<li><a href="index.html">ホーム</a></li>
+<li><a href="index.html#introduction">部活紹介</a></li>
+<li><a href="index.html#schedule">活動日程</a></li>
+<li><a href="results.html">大会結果</a></li>
+<li><a href="recruit.html">新歓情報</a></li>
+<li><a href="clubstudent.html">部員用ページ</a></li>
+<li><a href="contact.html">お問い合わせ</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero">
+<h2>新歓情報</h2>
+<p>初心者大歓迎！体験・見学いつでもお待ちしています。</p>
+</section>
+
+<section class="fade">
+<h3 class="section-title">新歓動画</h3>
+
+<div class="video">
+<iframe
+  src="https://www.youtube.com/embed/HnyBhcjYAdI"
+  title="新歓動画"
+  frameborder="0"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen>
+</iframe>
+</div>
+</section>
+<section class="fade">
+<h3 class="section-title">新歓スケジュール</h3>
+
+<div class="schedule-images">
+<div class="schedule-card">
+<h4>電通大 新歓予定表</h4>
+<img src="uec-schedule.jpg" alt="電通大新歓予定表">
+</div>
+
+<div class="schedule-card">
+<h4>日女体大 新歓予定表</h4>
+<img src="jwcpe-schedule.jpg" alt="日女体大新歓予定表">
+</div>
+</div>
+</section>
+
+<section class="fade">
+<h3 class="section-title">SNS</h3>
+
+<div class="sns">
+<a href="https://x.com/uec20ballroom" class="twitter" target="_blank">電気通信大学新歓アカウント（X）</a>
+<a href="https://www.instagram.com/jwcpe.ballroom/" class="insta" target="_blank">日本女子体育大学アカウント（Instagram）</a>
+</div>
+</section>
+
+<section class="fade">
+<h3 class="section-title">新歓LINE OpenChat</h3>
+<p>新歓情報や体験会の案内を受け取れます。まずは気軽に参加してください。</p>
+
+<a href="https://line.me/ti/g2/XXXXXXXX" class="line-button" target="_blank">
+LINE OpenChatに参加する
+</a>
+</section>
+
+<section class="fade">
+<h3 class="section-title">よくある質問</h3>
+
+<div class="qa-box">
+<h4>Q. 未経験でも大丈夫ですか？</h4>
+<p>A. 大丈夫です。部員の多くが大学から始めています。</p>
+</div>
+
+<div class="qa-box">
+<h4>Q. 見学だけでもいいですか？</h4>
+<p>A. もちろん大歓迎です。まずは雰囲気を見に来てください。</p>
+</div>
+
+<div class="qa-box">
+<h4>Q. 体験会に必要なものは？</h4>
+<p>A. 動きやすい服、室内履き、飲み物があればOKです。</p>
+</div>
+
+<div class="qa-box">
+<h4>Q. どのくらい活動していますか？</h4>
+<p>A. 週数回の練習会・フロア開放に加えて、大会やイベントがあります。</p>
+</div>
+
+<div class="qa-box">
+<h4>Q. 費用はどのくらいかかりますか？</h4>
+<p>A. 部費やシューズ代などがあります。詳細は説明会や体験会で案内します。</p>
+</div>
+</section>
+
+<section class="fade">
+<h3 class="section-title">参加・お問い合わせ</h3>
+<p>見学・体験参加・質問などはこちらからお願いします。</p>
+<p style="margin-top:16px;">
+<a href="contact.html" class="line-button" style="background:#0d2c54;">お問い合わせページへ</a>
+</p>
+</section>
+
+<footer>
+<div class="footer-links">
+<h3>関連リンク</h3>
+<a href="https://www.uec.ac.jp/campus/club/" target="_blank">電気通信大学 学友会</a>
+<a href="https://tobugakuren.com/" target="_blank">東部日本学生競技ダンス連盟</a>
+<a href="https://ajdc.or.jp/" target="_blank">全日本学生競技ダンス連盟</a>
+</div>
+
+<p>© 電気通信大学競技ダンス部</p>
+</footer>
+<script>
+  /* ロゴ付き幕演出＋フェードイン */
+window.addEventListener("DOMContentLoaded", function(){
+  const opening = document.getElementById("opening");
+
+  setTimeout(function(){
+    opening.classList.add("open");
+  }, 500);
+
+  setTimeout(function(){
+    opening.classList.add("fadeout");
+  }, 1400);
+
+  setTimeout(function(){
+    opening.style.display = "none";
+  }, 2000);
+});
+
+/* ===== 順番フェード（完全版） ===== */
+
+const fades = document.querySelectorAll('.fade');
+
+function checkFade(){
+  const trigger = window.innerHeight * 0.85;
+
+  fades.forEach((el, index) => {
+
+    // すでに表示済みならスキップ
+    if(el.classList.contains('show')) return;
+
+    const top = el.getBoundingClientRect().top;
+
+    if(top < trigger){
+
+      // 順番に遅延させる
+      setTimeout(() => {
+        el.classList.add('show');
+      }, index * 120); // ← ここが気持ちよさの核
+    }
+  });
+}
+
+/* 初回（ロード時も自然に） */
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(checkFade, 200);
+});
+
+window.addEventListener('scroll', checkFade);
+window.addEventListener('load', checkFade);
+
+</script>
+
+</body>
+</html>
