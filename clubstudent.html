@@ -474,10 +474,13 @@ window.addEventListener("DOMContentLoaded", function(){
 });
 
 const password = "1953";
+  
+const input = prompt("部員専用ページです。\nパスワードを入力してください");
 
-const input = prompt("部員専用ページです。パスワードを入力してください");
-
-if(input !== password){
+if(input === null){
+  location.href = "index.html";
+}
+else if(input !== "1953"){
   alert("パスワードが違います");
   location.href = "index.html";
 }
