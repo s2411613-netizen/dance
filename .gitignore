@@ -15,6 +15,20 @@ $RECYCLE.BIN/
 .LSOverride
 ._*
 
+# Credentials and Environment files
+ftp_config.local.json
+ftp_config*.local.json
+*.local.json
+*.env
+.env*
+secrets/
+
 # Editor / IDE directories
 .vscode/
 .idea/
+
+# Scratch and temporary files
+Untitled-1.html
+Untitled*.html
+*.tmp
+*.bak
