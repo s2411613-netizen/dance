@@ -1,7 +1,12 @@
-﻿[CmdletBinding()]
+﻿# ==============================================================================
+# 電気通信大学競技ダンス研究部 公式Webサイト
+# 安全デプロイスクリプト (deploy.ps1)
+# ==============================================================================
+[CmdletBinding()]
 param(
     [switch]$TestOnly,
     [switch]$DryRun,
+    [switch]$AskPassword,
     [string[]]$Files
 )
 
@@ -9,6 +14,7 @@ $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ConfigFile = Join-Path $ScriptDir "ftp_config.local.json"
+$PasswordFile = Join-Path $ScriptDir "ftp_password.local.dat"
 
 # 1. 設定ファイルの読み込み（存在する場合）
 $HostName = "post-5.cc.uec.ac.jp"
@@ -28,8 +34,7 @@ if (Test-Path $ConfigFile) {
         }
     }
 } elseif (-not $DryRun) {
-    Write-Host "[ERROR] 設定ファイル '$ConfigFile' が見つかりません。" -ForegroundColor Red
-    Write-Host "ftp_config.example.json をコピーして ftp_config.local.json を作成し、接続情報を設定してください。" -ForegroundColor Yellow
+    Write-Host "[ERROR] 初回設定が完了していません。.\setup.ps1 を実行してください。" -ForegroundColor Red
     exit 1
 }
 
@@ -46,7 +51,9 @@ $AllowedExtensions = @(
 )
 
 $BlockedNames = @(
-    "deploy.ps1", "ftp_config.local.json", "ftp_config.example.json",
+    "deploy.ps1", "setup.ps1",
+    "ftp_config.local.json", "ftp_config.example.json",
+    "ftp_password.local.dat", "ftp_password*.local.dat",
     "access_log", "desktop.ini", "Thumbs.db", ".DS_Store",
     "Untitled-1.html", "Untitled*.html"
 )
@@ -70,7 +77,7 @@ function Get-UploadEligibility {
             return @{ Allowed = $false; RelativePath = $relative; Reason = "除外ファイル ($($file.Name))" }
         }
     }
-    if ($file.Name -like "*.log" -or $file.Name -like "*.env*" -or $file.Name -like "*local.json" -or $file.Name -like "README*") {
+    if ($file.Name -like "*.log" -or $file.Name -like "*.env*" -or $file.Name -like "*local.json" -or $file.Name -like "*local.dat" -or $file.Name -like "README*") {
         return @{ Allowed = $false; RelativePath = $relative; Reason = "除外パターン" }
     }
 
@@ -134,7 +141,7 @@ if ($Files -and $Files.Count -gt 0) {
 }
 
 # ----------------------------------------------------
-# モード 1: DryRun（事前確認・FTP通信なし）
+# モード 1: DryRun（事前確認・FTP通信なし・パスワード不要）
 # ----------------------------------------------------
 if ($DryRun) {
     Write-Host "==========================================" -ForegroundColor Cyan
@@ -186,23 +193,45 @@ if ($DryRun) {
 }
 
 # ----------------------------------------------------
-# 認証情報の確認とパスワードプロンプト（TestOnly / 通常デプロイ用）
+# 認証情報の読み込み・復号（TestOnly / 通常デプロイ用）
 # ----------------------------------------------------
 if ([string]::IsNullOrWhiteSpace($HostName) -or [string]::IsNullOrWhiteSpace($Username)) {
-    Write-Host "[ERROR] host または username が設定されていません。" -ForegroundColor Red
+    Write-Host "[ERROR] 初回設定が完了していません。.\setup.ps1 を実行してください。" -ForegroundColor Red
     exit 1
 }
 
-$Password = $Config.password
-if ([string]::IsNullOrEmpty($Password)) {
+$Password = ""
+
+if ($AskPassword) {
+    # 一時的な直接入力モード（原因切り分け用）
+    Write-Host "[INFO] -AskPassword モード: 保存済みデータを使用せず直接パスワードを入力します。" -ForegroundColor Yellow
     $SecurePass = Read-Host -Prompt "FTP Password for '$Username@$HostName'" -AsSecureString
     $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePass)
     $Password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
     [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
+} else {
+    # 通常モード：保存済みDPAPI暗号化パスワードの自動復号
+    if (-not (Test-Path $PasswordFile)) {
+        Write-Host "[ERROR] 暗号化パスワードファイルが見つかりません。" -ForegroundColor Red
+        Write-Host "初回設定が完了していません。.\setup.ps1 を実行してください。" -ForegroundColor Yellow
+        exit 1
+    }
+
+    try {
+        $encryptedPass = (Get-Content -Path $PasswordFile -Raw).Trim()
+        $securePass = ConvertTo-SecureString -String $encryptedPass
+        $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePass)
+        $Password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+        [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
+    } catch {
+        Write-Host "[ERROR] 保存済みパスワードの復号に失敗しました。" -ForegroundColor Red
+        Write-Host "別のユーザーアカウントまたは別PCの可能性があります。.\setup.ps1 を再実行してください。" -ForegroundColor Yellow
+        exit 1
+    }
 }
 
 if ([string]::IsNullOrEmpty($Password)) {
-    Write-Host "[ERROR] パスワードが入力されませんでした。" -ForegroundColor Red
+    Write-Host "[ERROR] パスワードが取得できませんでした。.\setup.ps1 を再実行するか、-AskPassword を使用してください。" -ForegroundColor Red
     exit 1
 }
 

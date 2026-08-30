@@ -18,7 +18,10 @@ $RECYCLE.BIN/
 # Credentials and Environment files
 ftp_config.local.json
 ftp_config*.local.json
+ftp_password.local.dat
+ftp_password*.local.dat
 *.local.json
+*.local.dat
 *.env
 .env*
 secrets/
